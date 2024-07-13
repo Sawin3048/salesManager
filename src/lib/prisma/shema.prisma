@@ -1,0 +1,49 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Worker{
+  id  String @id @unique
+  name String
+  subName String
+  cin String
+  role String
+  password String
+}
+
+model Distributor {
+  id      String @id @unique
+  name    String
+  contact Json?
+  items   Item[]
+}
+
+model Item {
+  code          String      @id @unique
+  description   String
+  saleType      String
+  buy           Int
+  unitaryPrice  Int
+  inventory     Float
+  distributor   Distributor? @relation(fields: [distributorId], references: [id])
+  distributorId String?
+}
+
+model Customer{
+  ruc String @id @unique
+  name String
+  subName String
+  tickets Ticket[]
+}
+
+model Ticket {
+  id BigInt  @id @default(autoincrement())  
+  customer  Customer? @relation(fields: [customerRuc], references: [ruc]) 
+  customerRuc String? 
+}
