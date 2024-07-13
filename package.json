@@ -9,7 +9,7 @@
     "start-db": "docker compose up -d",
     "stop-db": "docker compose down",
     "db-ui": "npx prisma studio",
-    "test": "ts-jest"
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
