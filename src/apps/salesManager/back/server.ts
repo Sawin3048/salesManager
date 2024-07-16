@@ -13,6 +13,7 @@ export class Server {
   constructor(port: string) {
     this.port = port
     this.express = express()
+    this.express.use(express.json())
     this.express.use(helmet.xssFilter())
     this.express.use(helmet.noSniff())
     this.express.use(helmet.hidePoweredBy())
