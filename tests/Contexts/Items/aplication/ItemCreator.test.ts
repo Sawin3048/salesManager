@@ -8,13 +8,14 @@ describe('ItemCreator', () => {
 
     const repository = new ItemRepositoryMock()
     const service = new ItemCreator(repository)
+    const primitives = item.toPrimitives()
 
     await service.run(
-      item.code.value,
-      item.description.value,
-      item.saleType.value,
-      item.price.toPrimitives(),
-      item.stock.value
+      primitives.code,
+      primitives.description,
+      primitives.saleType,
+      primitives.price,
+      primitives.stock
     )
 
     repository.assertSaveHasBeenCalledWith(item)

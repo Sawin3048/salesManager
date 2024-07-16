@@ -39,9 +39,9 @@ export class Item {
       description: this.description.value,
       saleType: this.saleType.value,
       price: {
-        basePrice: this.price.basePrice,
-        unitaryPrice: this.price.unitaryPrice,
-        wholesalePrice: this.price.wholesalePrice
+        basePrice: this.price.basePrice.value,
+        unitaryPrice: this.price.unitaryPrice.value,
+        wholesalePrice: this.price.wholesalePrice.value
       },
       stock: this.stock.value
     }
