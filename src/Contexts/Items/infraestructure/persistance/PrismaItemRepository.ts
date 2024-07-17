@@ -6,9 +6,9 @@ export class PrismaItemRepository implements ItemRepository {
   async save(item: Item) {
     await prisma.item.create({
       data: {
-        code: item.code.toString(),
-        description: item.description.toString(),
-        saleType: item.saleType.toString(),
+        code: item.code.value.toString(),
+        description: item.description.value.toString(),
+        saleType: item.saleType.value.toString(),
         basePrice: item.price.basePrice.value,
         unitaryPrice: item.price.unitaryPrice.value,
         wholesalePrice: item.price.wholesalePrice.value,
