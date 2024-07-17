@@ -4,6 +4,7 @@ import http from 'http'
 import compress from 'compression'
 import { registerRoutes } from './routes'
 import morgan from 'morgan'
+import { ErrorHandler } from './middlewares/ErrorHandler'
 
 export class Server {
   private readonly express: express.Express
@@ -23,6 +24,7 @@ export class Server {
     const router = express.Router()
     registerRoutes(router)
     this.express.use(router)
+    this.express.use(ErrorHandler)
   }
 
   async listen(): Promise<void> {
