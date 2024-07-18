@@ -8,11 +8,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Worker {
+model User {
   id       String @id @unique
   name     String
-  subName  String
-  cin      String
+  lastname String
+  cin      Int
   role     String
   password String
 }
