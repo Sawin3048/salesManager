@@ -35,7 +35,7 @@ export class User {
 
   toPrimitives() {
     return {
-      id: this.name.value,
+      id: this.id.value,
       name: this.name.value,
       lastname: this.lastname.value,
       cin: this.cin.value,
