@@ -29,7 +29,7 @@ export class UserCreator {
     await this.repository.save(user)
   }
 
-  async hashPassword(password: UserUnHashedPassword) {
+  private async hashPassword(password: UserUnHashedPassword) {
     return await this.hasher.hash(password.value)
   }
 }
