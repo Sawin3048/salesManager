@@ -10,3 +10,12 @@
   - unitaryPrice
   - wholesalePrice
 - stock
+
+
+### User
+- id
+- name
+- lastname
+- cin
+- role
+- password
