@@ -8,7 +8,6 @@ export class UserPasswordMother {
 
   static random() {
     const password = WordMother.random({ maxLength: 60, minLength: 9 })
-    console.log({ password })
     return this.create(password)
   }
 }

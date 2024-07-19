@@ -10,7 +10,6 @@ export class UserRoleMother {
     const values = Object.values(UserRole.posibleValues)
 
     const value = values[IntegerMother.random(values.length - 1, 0)]
-    console.log({ value, values })
     return this.create(value)
   }
 }
