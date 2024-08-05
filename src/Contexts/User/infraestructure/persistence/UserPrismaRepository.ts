@@ -1,6 +1,7 @@
 import { prisma } from '../../../Shared/infraestructure/persistence/prisma/db'
 import { User } from '../../domain/User'
 import { UserRepository } from '../../domain/UserRepository'
+import { UserId } from '../../domain/UserId'
 
 export class UserPrismaRepository implements UserRepository {
   async save(user: User) {
@@ -14,6 +15,17 @@ export class UserPrismaRepository implements UserRepository {
         password: user.password.value
       }
     })
+  }
+
+  async search(userId: UserId) {
+    const rawData = await prisma.user.findFirst({
+      where: {
+        id: userId.value
+      }
+    })
+
+    if (rawData == null) return null
+    return User.fromPrimitives(rawData)
   }
 
   async searchAll() {

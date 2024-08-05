@@ -20,7 +20,7 @@ export class Server {
     this.express.use(helmet.hidePoweredBy())
     this.express.use(helmet.frameguard({ action: 'deny' }))
     this.express.use(compress())
-    this.express.use(morgan('combined'))
+    this.express.use(morgan('dev'))
     const router = express.Router()
     registerRoutes(router)
     this.express.use(router)
