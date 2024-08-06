@@ -8,7 +8,7 @@ export class UserPasswordValidator {
 
   async run(id: string, password: string) {
     const user = await this.repository.search(new UserId(id))
-
+    // TODO Create custom domain error
     if (user == null) throw new DomainError('User not exist')
 
     return await this.hasher.checkHash(password, user.password.value)
