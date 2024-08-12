@@ -4,10 +4,16 @@ import { UserRepository } from '../domain/UserRepository'
 import { UserUnHashedPassword } from '../domain/UserUnHashedPassword'
 
 export class UserCreator {
-  constructor(
-    private readonly repository: UserRepository,
-    private readonly hasher: StringHasher
-  ) { }
+  private readonly repository: UserRepository
+  private readonly hasher: StringHasher
+
+  constructor(dependencies: {
+    userRepository: UserRepository
+    stringHasher: StringHasher
+  }) {
+    this.repository = dependencies.userRepository
+    this.hasher = dependencies.stringHasher
+  }
 
   async run(params: {
     id: string

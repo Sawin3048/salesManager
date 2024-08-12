@@ -2,7 +2,10 @@ import { Item } from '../../domain/Item'
 import { ItemRepository } from '../../domain/ItemRepository'
 
 export class ItemCreator {
-  constructor(private readonly itemRepository: ItemRepository) { }
+  private readonly itemRepository: ItemRepository
+  constructor(dependencies: { itemRepository: ItemRepository }) {
+    this.itemRepository = dependencies.itemRepository
+  }
 
   async run(
     code: number,

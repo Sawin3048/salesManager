@@ -1,21 +1,25 @@
 import jwt, { JsonWebTokenError } from 'jsonwebtoken'
 import { UserId } from '../domain/userId'
 import { SessionHandler } from '../domain/sessionHandler'
-import { DomainError } from '../../Shared/domain/DomainError'
+import { InvalidSessionError } from '../domain/InvalidSessionError'
 
 export class SessionHandlerWithJWT implements SessionHandler {
-  /**
-   * @param secret
-   * @param expiredTime
-   * expressed in seconds or a string describing a time span [zeit/ms](https://github.com/zeit/ms.js).
-   * Eg: 60, "2 days", "10h", "7d"
-   */
-  constructor(private readonly secret: string, private readonly expiredTime: string | number) { }
+  private readonly secret: string
+  private readonly expiredTime: string | number
+
+  constructor(dependencies: {
+    secret: string
+    expiredTime: string | number
+  }) {
+    this.secret = dependencies.secret
+    this.expiredTime = dependencies.expiredTime
+  }
+
   async verify(sessionToken: string) {
     try {
       const payload = jwt.verify(sessionToken, this.secret)
       const id = this.getUserIdByPayload(payload)
-
+      console.log({ payload })
       return { authenticated: true, userId: id.value }
     } catch (error) {
       if (error instanceof JsonWebTokenError) return { authenticated: false, userId: null }
@@ -37,7 +41,6 @@ export class SessionHandlerWithJWT implements SessionHandler {
 
   private getUserIdByPayload(payload: string | jwt.JwtPayload | null) {
     if (typeof payload === 'object') return new UserId(payload?.id)
-    // TODO Write a custom domain error
-    throw new DomainError('The session user id is invalid')
+    throw new InvalidSessionError()
   }
 }

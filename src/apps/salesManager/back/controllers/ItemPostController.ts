@@ -2,7 +2,7 @@ import httpStatus from 'http-status'
 import { Controller } from './Controller'
 import { NextFunction, Request, Response } from 'express'
 import { ItemCreator } from '../../../../Contexts/Items/application/Create/ItemCreator'
-import { PrismaItemRepository } from '../../../../Contexts/Items/infraestructure/persistance/PrismaItemRepository'
+import { container, containerKeys } from '../dependency-injection'
 
 export class ItemPostController implements Controller {
   async run(req: Request, res: Response, next: NextFunction) {
@@ -15,8 +15,7 @@ export class ItemPostController implements Controller {
       wholesalePrice,
       stock
     } = req.body
-    const repository = new PrismaItemRepository()
-    const service = new ItemCreator(repository)
+    const service = container.resolve<ItemCreator>(containerKeys.item.creator)
 
     const price = {
       basePrice,

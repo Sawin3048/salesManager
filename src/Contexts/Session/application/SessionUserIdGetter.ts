@@ -1,7 +1,12 @@
 import { SessionHandler } from '../domain/sessionHandler'
 
 export class SessionUserIdGetter {
-  constructor(private readonly sessionHandler: SessionHandler) { }
+  private readonly sessionHandler: SessionHandler
+  constructor(dependencies: {
+    sessionHandler: SessionHandler
+  }) {
+    this.sessionHandler = dependencies.sessionHandler
+  }
 
   async run(session: string) {
     return await this.sessionHandler.getUserId(session)

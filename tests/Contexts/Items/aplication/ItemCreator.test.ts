@@ -8,7 +8,7 @@ describe('ItemCreator', () => {
     const item = ItemMother.random()
 
     const repository = new ItemRepositoryMock()
-    const service = new ItemCreator(repository)
+    const service = new ItemCreator({ itemRepository: repository })
     const primitives = item.toPrimitives()
 
     await service.run(
@@ -24,7 +24,7 @@ describe('ItemCreator', () => {
 
   it('Should throw an error when trying to create an item without one property', async () => {
     const repository = new ItemRepositoryMock()
-    const service = new ItemCreator(repository)
+    const service = new ItemCreator({ itemRepository: repository })
 
     const undefinedPropiety = undefined as any
 

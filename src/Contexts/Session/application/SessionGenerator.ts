@@ -2,7 +2,12 @@ import { SessionHandler } from '../domain/sessionHandler'
 import { UserId } from '../domain/userId'
 
 export class SessionGenerator {
-  constructor(private readonly sessionHandler: SessionHandler) { }
+  private readonly sessionHandler: SessionHandler
+  constructor(dependencies: {
+    sessionHandler: SessionHandler
+  }) {
+    this.sessionHandler = dependencies.sessionHandler
+  }
 
   async run(id: string) {
     const userId = new UserId(id)

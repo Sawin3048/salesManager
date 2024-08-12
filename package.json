@@ -17,6 +17,7 @@
   "dependencies": {
     "@prisma/adapter-pg": "^5.13.0",
     "@prisma/client": "^5.13.0",
+    "awilix": "^10.0.2",
     "bcrypt": "^5.1.1",
     "colors": "^1.4.0",
     "compression": "1.7.4",

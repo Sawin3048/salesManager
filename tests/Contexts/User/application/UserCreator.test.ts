@@ -8,7 +8,7 @@ describe('User creator', () => {
     const user = UserMother.random()
     const repository = new UserRepositoryMock()
     const hasher = new HasherMock()
-    const service = new UserCreator(repository, hasher)
+    const service = new UserCreator({ stringHasher: hasher, userRepository: repository })
     const primitives = user.toPrimitives()
 
     await service.run({

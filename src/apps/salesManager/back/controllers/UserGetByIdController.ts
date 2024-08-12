@@ -1,16 +1,15 @@
 import { Request, Response, NextFunction } from 'express'
 import { Controller } from './Controller'
-import { UserPrismaRepository } from '../../../../Contexts/User/infraestructure/persistence/UserPrismaRepository'
 import { UserFinderById } from '../../../../Contexts/User/application/UserFinderById'
+import { container, containerKeys } from '../dependency-injection'
 
 export class UserGetByIdController implements Controller {
   async run(req: Request, res: Response, next: NextFunction) {
-    const repository = new UserPrismaRepository()
-    const service = new UserFinderById(repository)
+    const service = container.resolve<UserFinderById>(containerKeys.user.finderById)
 
     try {
-      const users = await service.run(req.params.id)
-      res.send(users)
+      const user = await service.run(req.params.id)
+      res.send(user)
     } catch (error) {
       next(error)
     }

@@ -1,13 +1,11 @@
 import { NextFunction, Request, Response } from 'express'
 import { ItemFinder } from '../../../../Contexts/Items/application/searchAll/ItemFinder'
-import { PrismaItemRepository } from '../../../../Contexts/Items/infraestructure/persistance/PrismaItemRepository'
 import { Controller } from './Controller'
+import { container, containerKeys } from '../dependency-injection'
 
 export class ItemGetController implements Controller {
   async run(req: Request, res: Response, next: NextFunction) {
-    const repository = new PrismaItemRepository()
-    const service = new ItemFinder(repository)
-    console.log(res.locals.user)
+    const service = container.resolve<ItemFinder>(containerKeys.item.finder)
     try {
       const items = (await service.run()).map(item => item.toPrimitives())
       res.json(items)

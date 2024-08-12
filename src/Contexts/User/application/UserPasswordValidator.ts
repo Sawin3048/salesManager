@@ -1,15 +1,23 @@
 import { UserRepository } from '../domain/UserRepository'
 import { UserId } from '../domain/UserId'
-import { DomainError } from '../../Shared/domain/DomainError'
 import { StringHasher } from '../../Shared/domain/StringHasher'
+import { InvalidAuth } from '../domain/InvalidAuth'
 
 export class UserPasswordValidator {
-  constructor(private readonly repository: UserRepository, private readonly hasher: StringHasher) { }
+  private readonly repository: UserRepository
+  private readonly hasher: StringHasher
+
+  constructor(dependencies: {
+    userRepository: UserRepository
+    stringHasher: StringHasher
+  }) {
+    this.repository = dependencies.userRepository
+    this.hasher = dependencies.stringHasher
+  }
 
   async run(id: string, password: string) {
     const user = await this.repository.search(new UserId(id))
-    // TODO Create custom domain error
-    if (user == null) throw new DomainError('User not exist')
+    if (user == null) throw new InvalidAuth()
 
     return await this.hasher.checkHash(password, user.password.value)
   }
