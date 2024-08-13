@@ -37,10 +37,10 @@ model Item {
 }
 
 model Customer {
-  ruc     String   @id @unique
-  name    String
-  subName String
-  tickets Ticket[]
+  ruc      String   @id @unique
+  name     String
+  lastname String
+  tickets  Ticket[]
 }
 
 model Ticket {

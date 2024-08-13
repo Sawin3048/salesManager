@@ -13,6 +13,10 @@ import { SessionValidator } from '../../../../Contexts/Session/application/Sessi
 import { PrismaItemRepository } from '../../../../Contexts/Items/infraestructure/persistance/PrismaItemRepository'
 import { ItemFinder } from '../../../../Contexts/Items/application/searchAll/ItemFinder'
 import { ItemCreator } from '../../../../Contexts/Items/application/Create/ItemCreator'
+import { CustomerPrismaRepository } from '../../../../Contexts/Customer/infraestructure/persistance/CustomerPrismaRepository'
+import { CustomerCreator } from '../../../../Contexts/Customer/application/CustomerCreator'
+import { CustomerFinder } from '../../../../Contexts/Customer/application/CustomerFinder'
+import { CustomerFinderByRuc } from '../../../../Contexts/Customer/application/CustomerFinderByRuc'
 
 export const container = createContainer({ strict: true, injectionMode: InjectionMode.PROXY })
 
@@ -31,6 +35,11 @@ export const containerKeys = {
   item: {
     finder: 'item.ItemFinder',
     creator: 'item.ItemCreator'
+  },
+  customer: {
+    creator: 'customer.CustomerCreator',
+    finder: 'customer.CustomerFinder',
+    finderByRuc: 'customer.CustomerFinderByRuc'
   }
 }
 
@@ -72,4 +81,15 @@ container.register({
 container.register({
   [containerKeys.item.finder]: asClass(ItemFinder),
   [containerKeys.item.creator]: asClass(ItemCreator)
+})
+
+// Customer Context
+container.register({
+  customerRepository: asClass(CustomerPrismaRepository)
+})
+
+container.register({
+  [containerKeys.customer.creator]: asClass(CustomerCreator),
+  [containerKeys.customer.finder]: asClass(CustomerFinder),
+  [containerKeys.customer.finderByRuc]: asClass(CustomerFinderByRuc)
 })

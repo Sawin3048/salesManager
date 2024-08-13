@@ -1,12 +1,11 @@
 import { UserRepository } from '../domain/UserRepository'
-import { UserId } from '../domain/UserId'
 import { StringHasher } from '../../Shared/domain/StringHasher'
 import { InvalidAuth } from '../domain/InvalidAuth'
+import { UserCin } from '../domain/UserCin'
 
 export class UserPasswordValidator {
   private readonly repository: UserRepository
   private readonly hasher: StringHasher
-
   constructor(dependencies: {
     userRepository: UserRepository
     stringHasher: StringHasher
@@ -15,10 +14,11 @@ export class UserPasswordValidator {
     this.hasher = dependencies.stringHasher
   }
 
-  async run(id: string, password: string) {
-    const user = await this.repository.search(new UserId(id))
+  async run(cin: string, password: string) {
+    const user = await this.repository.searchByCin(new UserCin(Number(cin) ?? cin))
     if (user == null) throw new InvalidAuth()
-
-    return await this.hasher.checkHash(password, user.password.value)
+    const isValidPassword = await this.hasher.checkHash(password, user.password.value)
+    if (!isValidPassword) throw new InvalidAuth()
+    return (user.id)
   }
 }
