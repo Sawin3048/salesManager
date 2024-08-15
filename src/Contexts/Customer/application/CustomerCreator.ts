@@ -8,7 +8,6 @@ export class CustomerCreator {
   }
 
   async run(params: {
-    id: string
     name: string
     lastname: string
     ruc: string

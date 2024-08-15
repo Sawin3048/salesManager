@@ -1,4 +1,4 @@
-import e, { NextFunction, Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import httpStatus from 'http-status'
 import { InvalidArgumentError } from '../../../../Contexts/Shared/domain/InvalidArgumentError'
 import { DomainError } from '../../../../Contexts/Shared/domain/DomainError'

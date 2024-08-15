@@ -2,6 +2,7 @@ import jwt, { JsonWebTokenError } from 'jsonwebtoken'
 import { UserId } from '../domain/userId'
 import { SessionHandler } from '../domain/sessionHandler'
 import { InvalidSessionError } from '../domain/InvalidSessionError'
+import { InvalidArgumentError } from '../../Shared/domain/InvalidArgumentError'
 
 export class SessionHandlerWithJWT implements SessionHandler {
   private readonly secret: string
@@ -19,7 +20,6 @@ export class SessionHandlerWithJWT implements SessionHandler {
     try {
       const payload = jwt.verify(sessionToken, this.secret)
       const id = this.getUserIdByPayload(payload)
-      console.log({ payload })
       return { authenticated: true, userId: id.value }
     } catch (error) {
       if (error instanceof JsonWebTokenError) return { authenticated: false, userId: null }
@@ -40,7 +40,12 @@ export class SessionHandlerWithJWT implements SessionHandler {
   }
 
   private getUserIdByPayload(payload: string | jwt.JwtPayload | null) {
-    if (typeof payload === 'object') return new UserId(payload?.id)
-    throw new InvalidSessionError()
+    try {
+      if (typeof payload === 'object') return new UserId(payload?.id)
+      throw new InvalidSessionError()
+    } catch (error) {
+      if (error instanceof InvalidArgumentError) throw new InvalidSessionError()
+      throw error
+    }
   }
 }

@@ -5,6 +5,7 @@ import compress from 'compression'
 import { registerRoutes } from './routes'
 import morgan from 'morgan'
 import { ErrorHandler } from './middlewares/ErrorHandler'
+import { NotFound } from './middlewares/NotFound'
 
 export class Server {
   private readonly express: express.Express
@@ -25,6 +26,7 @@ export class Server {
     registerRoutes(router)
     this.express.use(router)
     this.express.use(ErrorHandler)
+    this.express.use(NotFound)
   }
 
   async listen(): Promise<void> {

@@ -1,7 +1,9 @@
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import { StringHasher } from '../../Shared/domain/StringHasher'
 import { User } from '../domain/User'
 import { UserRepository } from '../domain/UserRepository'
 import { UserUnHashedPassword } from '../domain/UserUnHashedPassword'
+import { EntityAlreadyExists } from '../../Customer/infraestructure/EntityAlreadyExist'
 
 export class UserCreator {
   private readonly repository: UserRepository
@@ -32,7 +34,14 @@ export class UserCreator {
       role,
       password: await this.hashPassword(new UserUnHashedPassword(password))
     })
-    await this.repository.save(user)
+    try {
+      await this.repository.save(user)
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) {
+        if (error.code === 'P2002') throw new EntityAlreadyExists()
+      }
+      throw error
+    }
   }
 
   private async hashPassword(password: UserUnHashedPassword) {

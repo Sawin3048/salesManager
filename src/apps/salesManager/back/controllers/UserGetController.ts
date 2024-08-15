@@ -9,7 +9,7 @@ export class UserGetController implements Controller {
 
     try {
       const users = await service.run()
-      res.send(users)
+      res.json(users.map(u => u.toPrimitives()))
     } catch (error) {
       next(error)
     }
