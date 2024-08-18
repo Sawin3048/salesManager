@@ -1,3 +1,4 @@
+import { Nullable } from '../../../../tests/Contexts/Shared/domain/Nullable'
 import { UserId } from './userId'
 
 interface Session {
@@ -8,5 +9,5 @@ interface Session {
 export interface SessionHandler {
   verify: (session: string) => Promise<Session>
   generate: (id: UserId) => Promise<string>
-  getUserId: (session: string) => Promise<UserId>
+  getUserId: (session: string) => Promise<Nullable<UserId>>
 }

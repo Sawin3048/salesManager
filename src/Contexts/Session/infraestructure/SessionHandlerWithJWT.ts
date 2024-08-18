@@ -1,7 +1,6 @@
 import jwt, { JsonWebTokenError } from 'jsonwebtoken'
 import { UserId } from '../domain/userId'
 import { SessionHandler } from '../domain/sessionHandler'
-import { InvalidSessionError } from '../domain/InvalidSessionError'
 import { InvalidArgumentError } from '../../Shared/domain/InvalidArgumentError'
 
 export class SessionHandlerWithJWT implements SessionHandler {
@@ -20,9 +19,12 @@ export class SessionHandlerWithJWT implements SessionHandler {
     try {
       const payload = jwt.verify(sessionToken, this.secret)
       const id = this.getUserIdByPayload(payload)
-      return { authenticated: true, userId: id.value }
+
+      if (id == null) return this.badResponse()
+
+      return this.goodResponse(id)
     } catch (error) {
-      if (error instanceof JsonWebTokenError) return { authenticated: false, userId: null }
+      if (error instanceof JsonWebTokenError) return this.badResponse()
       throw error
     }
   }
@@ -42,10 +44,18 @@ export class SessionHandlerWithJWT implements SessionHandler {
   private getUserIdByPayload(payload: string | jwt.JwtPayload | null) {
     try {
       if (typeof payload === 'object') return new UserId(payload?.id)
-      throw new InvalidSessionError()
+      return null
     } catch (error) {
-      if (error instanceof InvalidArgumentError) throw new InvalidSessionError()
+      if (error instanceof InvalidArgumentError) return null
       throw error
     }
+  }
+
+  private goodResponse(id: UserId) {
+    return { authenticated: true, userId: id.value }
+  }
+
+  private badResponse() {
+    return { authenticated: true, userId: null }
   }
 }
