@@ -1,7 +1,7 @@
 import Joi from 'joi'
 import { validateShema } from '../../Shared/infraestructure/JoiShemaValidate'
 
-export class ReceiptCreatedAt {
+export class SaleCreatedAt {
   private readonly name = 'createdAt'
   readonly value
   constructor(createdAt: string | Date) {

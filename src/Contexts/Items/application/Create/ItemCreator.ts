@@ -8,23 +8,27 @@ export class ItemCreator {
   }
 
   async run(
-    code: number,
-    description: string,
-    saleType: string,
-    price: {
-      basePrice: number
-      unitaryPrice: number
-      wholesalePrice: number
-    },
-    stock: number
+    params: {
+      id: string
+      code: number
+      description: string
+      saleType: string
+      price: {
+        basePrice: number
+        unitaryPrice: number
+        wholesalePrice: number
+      }
+      stock: number
+    }
   ) {
     const item = Item.fromPrimitives(
       {
-        code,
-        description,
-        saleType,
-        price,
-        stock
+        id: params.id,
+        code: params.code,
+        description: params.description,
+        saleType: params.saleType,
+        price: params.price,
+        stock: params.stock
       })
 
     return await this.itemRepository.save(item)

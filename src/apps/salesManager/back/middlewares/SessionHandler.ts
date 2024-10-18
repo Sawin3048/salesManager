@@ -3,7 +3,7 @@ import { SessionValidator } from '../../../../Contexts/Session/application/Sessi
 import { container, containerKeys } from '../dependency-injection'
 
 export async function SessionHandler(req: Request, res: Response, next: NextFunction) {
-  const session = req.headers.authorization as string
+  const session = req.cookies.Authorization
 
   const verify = container.resolve<SessionValidator>(containerKeys.session.validator)
 

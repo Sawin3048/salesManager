@@ -7,6 +7,7 @@ import { container, containerKeys } from '../dependency-injection'
 export class ItemPostController implements Controller {
   async run(req: Request, res: Response, next: NextFunction) {
     const {
+      id,
       code,
       description,
       saleType,
@@ -24,12 +25,14 @@ export class ItemPostController implements Controller {
     }
 
     try {
-      await service.run(
+      await service.run({
+        id,
         code,
         description,
         saleType,
         price,
         stock
+      }
       )
       res.sendStatus(httpStatus.CREATED)
     } catch (error) {

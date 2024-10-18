@@ -4,8 +4,8 @@ import { InvalidArgumentError } from '../InvalidArgumentError'
 import { ValueObject } from './ValueObject'
 
 export class Uuid extends ValueObject<string> {
-  constructor(value: string) {
-    super(value)
+  constructor(value: string, name?: string) {
+    super(value, name)
     this.ensureIsValidUuid(value)
   }
 
@@ -14,7 +14,7 @@ export class Uuid extends ValueObject<string> {
   }
 
   private ensureIsValidUuid(id: string): void {
-    if (validate(id)) {
+    if (!validate(id)) {
       throw new InvalidArgumentError(`<${this.constructor.name}> does not allow the value <${id}>`)
     }
   }

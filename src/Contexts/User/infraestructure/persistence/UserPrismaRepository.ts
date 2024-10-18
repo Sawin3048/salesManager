@@ -12,7 +12,7 @@ export class UserPrismaRepository implements UserRepository {
         name: user.name.value,
         lastname: user.lastname.value,
         cin: user.cin.value,
-        role: user.password.value,
+        role: user.role.value,
         password: user.password.value
       }
     })
@@ -32,6 +32,7 @@ export class UserPrismaRepository implements UserRepository {
   async searchByCin(cin: UserCin) {
     const data = await prisma.user.findFirst({ where: { cin: cin.value } })
     if (data == null) return null
+    console.log({ data })
     return User.fromPrimitives(data)
   }
 

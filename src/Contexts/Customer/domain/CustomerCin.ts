@@ -1,17 +1,18 @@
 import Joi from 'joi'
 import { validateShema } from '../../Shared/infraestructure/JoiShemaValidate'
+import { StringValueObject } from '../../Shared/domain/value-object/StringValueObject'
 
-export class CustomerRUC {
+export class CustomerRUC extends StringValueObject {
   readonly value
-  private readonly name = 'ruc'
 
   constructor(ruc: string) {
+    super(ruc, 'ruc')
     this.value = this.ensureIsValid(ruc)
   }
 
   private ensureIsValid(value: string): string {
     const shema = Joi.string().exist().min(1)
-    return validateShema({ shema, value, propertyName: this.name })
+    return validateShema({ shema, value, propertyName: 'ruc' })
   }
 
   private verifyRUC(ruc: string, baseMax = 11) {

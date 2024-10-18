@@ -15,7 +15,7 @@ export class UserPostController implements Controller {
       res.sendStatus(httpStatus.CREATED)
     } catch (error) {
       if (error instanceof EntityAlreadyExists) res.status(httpStatus.CONFLICT).send('User already exists')
-      next(error)
+      else next(error)
     }
   }
 }

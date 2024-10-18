@@ -17,6 +17,9 @@ import { CustomerPrismaRepository } from '../../../../Contexts/Customer/infraest
 import { CustomerCreator } from '../../../../Contexts/Customer/application/CustomerCreator'
 import { CustomerFinder } from '../../../../Contexts/Customer/application/CustomerFinder'
 import { CustomerFinderByRuc } from '../../../../Contexts/Customer/application/CustomerFinderByRuc'
+import { SalePrismaRepository } from '../../../../Contexts/Sale/infraestructure/SalePrismaRepository'
+import { SalesCreator } from '../../../../Contexts/Sale/application/SaleCreator'
+import { SalesFinder } from '../../../../Contexts/Sale/application/SaleFinder'
 
 export const container = createContainer({ strict: true, injectionMode: InjectionMode.PROXY })
 
@@ -40,6 +43,10 @@ export const containerKeys = {
     creator: 'customer.CustomerCreator',
     finder: 'customer.CustomerFinder',
     finderByRuc: 'customer.CustomerFinderByRuc'
+  },
+  sale: {
+    creator: 'sale.SaleCreator',
+    finder: 'sale.SaleFinder'
   }
 }
 
@@ -92,4 +99,14 @@ container.register({
   [containerKeys.customer.creator]: asClass(CustomerCreator),
   [containerKeys.customer.finder]: asClass(CustomerFinder),
   [containerKeys.customer.finderByRuc]: asClass(CustomerFinderByRuc)
+})
+
+// Sales Context
+container.register({
+  saleRepository: asClass(SalePrismaRepository)
+})
+
+container.register({
+  [containerKeys.sale.creator]: asClass(SalesCreator),
+  [containerKeys.sale.finder]: asClass(SalesFinder)
 })

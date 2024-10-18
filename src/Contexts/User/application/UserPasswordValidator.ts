@@ -15,7 +15,7 @@ export class UserPasswordValidator {
   }
 
   async run(cin: string, password: string) {
-    const user = await this.repository.searchByCin(new UserCin(Number(cin) ?? cin))
+    const user = await this.repository.searchByCin(new UserCin(Number(cin)))
     if (user == null) throw new InvalidAuth()
     const isValidPassword = await this.hasher.checkHash(password, user.password.value)
     if (!isValidPassword) throw new InvalidAuth()
